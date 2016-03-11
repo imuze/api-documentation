@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Api-documentation by imuze</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Api-documentation</h1>
+      <h2 class="project-tagline">Documentation and how-to use the iMuze Inc. api</h2>
+      <a href="https://github.com/imuze/api-documentation" class="btn">View on GitHub</a>
+      <a href="https://github.com/imuze/api-documentation/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/imuze/api-documentation/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="imuze-api-version-codename-joplin" class="anchor" href="#imuze-api-version-codename-joplin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iMuze API, version codename <strong>Joplin</strong>
+</h1>
+
+<h2>
+<a id="how-to-use-the-imuze-api" class="anchor" href="#how-to-use-the-imuze-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Use the iMuze API</h2>
+
+<p>Joplin is the last version of the iMuze API. It tlets you generate music on demand.
+To generate music you just need to specify the genre, sub-genre, duration and the structure of the music you want.</p>
+
+<h3>
+<a id="authenticate" class="anchor" href="#authenticate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticate</h3>
+
+<p>First request an account on iMuze.io .
+Use the following route to authenticate:</p>
+
+<pre><code>PUT /accounts/token
+</code></pre>
+
+<p>The body should be something like that:</p>
+
+<pre><code>{
+    "email": "you@domain.tld  ",
+    "password": "my_password"
+}
+</code></pre>
+
+<p>The response will be a token when successful:</p>
+
+<pre><code>{
+    "token": "gergdhvdb4399ewnfusrodfd....t45"
+}
+</code></pre>
+
+<h3>
+<a id="genres" class="anchor" href="#genres" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Genres</h3>
+
+<p>Use the following route to list genres:</p>
+
+<pre><code>GET /genres
+</code></pre>
+
+<p>The response will be a list of genre and sub-genres. We add new genres and sub-genre every week, so keep checking this list:</p>
+
+<pre><code>{
+  "genres": [
+    {
+      "subgenres": [
+        "dynamic",
+        "medium",
+        "soft",
+        "vocal"
+      ],
+      "name": "edm"
+    },
+    {
+      "subgenres": [
+        "dynamic",
+        "soft"
+      ],
+      "name": "rock"
+    },
+    {
+      "subgenres": [
+        "ambiance",
+        "india",
+        "ragga",
+        "vocal"
+      ],
+      "name": "dub"
+    },
+    {
+      "subgenres": [
+        "metal",
+        "simple",
+        "smooth"
+      ],
+      "name": "jungle"
+    },
+    {
+      "subgenres": [
+        "ambiance",
+        "dirt",
+        "vinyl"
+      ],
+      "name": "hiphop"
+    }
+  ]
+}
+</code></pre>
+
+<h3>
+<a id="generate-music" class="anchor" href="#generate-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generate Music</h3>
+
+<p>Use the following route to generate music:</p>
+
+<pre><code>POST /musics
+</code></pre>
+
+<p>The body should be something like that:</p>
+
+<pre><code>{
+    "genre": "hiphop",
+    "subgenre": "dirt",
+    "duration_ms": 31000,
+    "structure": [
+        {
+            "start": 0,
+            "duration": 0.33,
+            "energy": "calm"
+        },
+        {
+            "start": 0.33,
+            "duration": 0.33,
+            "energy": "medium"
+        },
+        {
+            "start": 0.66,
+            "duration": 0.33,
+            "energy": "dynamic"
+        }
+    ]
+}
+</code></pre>
+
+<p>the "structure" property contain:</p>
+
+<ul>
+<li>start : time percentage of the music where the movement start</li>
+<li>duration : movement duration</li>
+<li>energy : can be one of the following ['calm', 'medium', 'dynamic']</li>
+</ul>
+
+<p>NB: you must provide the token in the Authorization Header</p>
+
+<p>The response will display information about the music, it's structure in milliseconds and the URI to download the mp3:</p>
+
+<pre><code>{
+  "id": "3f782e98-613d-4f68-b27f-05237b90ba65",
+  "duration_ms": 32000,
+  "measure": "4/4",
+  "measure_fingerprints": {},
+  "genre": "hiphop",
+  "music_engine_version": "b2c2ce7",
+  "movements": [
+    {
+      "energy": "calm",
+      "start_ms": 0,
+      "duration_ms": 10666.666666666666
+    },
+    {
+      "energy": "medium",
+      "start_ms": 10666.666666666666,
+      "duration_ms": 10666.666666666666
+    },
+    {
+      "energy": "dynamic",
+      "start_ms": 21333.333333333332,
+      "duration_ms": 10666.666666666666
+    }
+  ],
+  "mp3_uri": "//joplin.imuze.io/musics/3f782e98-613d-4f68-b27f-05237b90ba65/mp3",
+  "bpm": 90,
+  "subgenre": "dirt"
+}
+</code></pre>
+
+<h3>
+<a id="enjoy-your-music" class="anchor" href="#enjoy-your-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enjoy your music</h3>
+
+<p>Use the <code>mp3_uri</code> to download and listen to your music, enjoy !</p>
+
+<pre><code>GET /musics/:id/mp3
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/imuze/api-documentation">Api-documentation</a> is maintained by <a href="https://github.com/imuze">imuze</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
