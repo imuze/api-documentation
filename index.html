@@ -29,16 +29,19 @@
 <p>Joplin is the last version of the iMuze API. It tlets you generate music on demand.
 To generate music you just need to specify the genre, sub-genre, duration and the structure of the music you want.</p>
 
+<h3>API base url</h3>
+The base url for this version of the API is <pre>https://joplin.imuze.io</pre>
+
 <h3>
 <a id="authenticate" class="anchor" href="#authenticate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticate</h3>
 
 <p>First request an account on iMuze.io .
 Use the following route to authenticate:</p>
 
-<pre><code>PUT /accounts/token
+<pre><code>POST /accounts/token
 </code></pre>
 
-<p>The body should be something like that:</p>
+<p>The json payload should include your account credentials</p>
 
 <pre><code>{
     "email": "you@domain.tld  ",
@@ -46,7 +49,7 @@ Use the following route to authenticate:</p>
 }
 </code></pre>
 
-<p>The response will be a token when successful:</p>
+<p>With the correct credentials, the response is a valid API token:</p>
 
 <pre><code>{
     "token": "gergdhvdb4399ewnfusrodfd....t45"
@@ -118,13 +121,13 @@ Use the following route to authenticate:</p>
 <pre><code>POST /musics
 </code></pre>
 
-<p>The body should be something like that:</p>
+<p>The json payload should include the genre, subgenre, duration (in ms), and the structure of the music specified as a set of movements.</p>
 
 <pre><code>{
     "genre": "hiphop",
     "subgenre": "dirt",
     "duration_ms": 31000,
-    "structure": [
+    "movements": [
         {
             "start": 0,
             "duration": 0.33,
@@ -144,12 +147,12 @@ Use the following route to authenticate:</p>
 }
 </code></pre>
 
-<p>the "structure" property contain:</p>
+<p>the "movement" property contains:</p>
 
 <ul>
 <li>start : time percentage of the music where the movement start</li>
-<li>duration : movement duration</li>
-<li>energy : can be one of the following ['calm', 'medium', 'dynamic']</li>
+<li>duration : movement duration in percentage of the whole</li>
+<li>energy : defines the relative energy level of the movements, can be one of the following ['calm', 'medium', 'dynamic']</li>
 </ul>
 
 <p>NB: you must provide the token in the Authorization Header</p>
