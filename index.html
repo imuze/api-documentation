@@ -38,7 +38,7 @@ The base url for this version of the API is <pre>https://joplin.imuze.io</pre>
 <p>First request an account on iMuze.io .
 Use the following route to authenticate:</p>
 
-<pre><code>POST /accounts/token
+<pre><code>POST tokens
 </code></pre>
 
 <p>The json payload should include your account credentials</p>
@@ -64,7 +64,7 @@ Use the following route to authenticate:</p>
 <pre><code>GET /genres
 </code></pre>
 
-<p>The response will be a list of genre and sub-genres. We add new genres and sub-genre every week, so keep checking this list:</p>
+<p>The response is a list of genre and sub-genres. We add new genres and sub-genre every week, so keep checking this list:</p>
 
 <pre><code>{
   "genres": [
@@ -157,13 +157,12 @@ Use the following route to authenticate:</p>
 
 <p>NB: you must provide the token in the Authorization Header</p>
 
-<p>The response will display information about the music, it's structure in milliseconds and the URI to download the mp3:</p>
+<p>The response describes the music, it's structure in milliseconds and the URI to download the mp3:</p>
 
 <pre><code>{
   "id": "3f782e98-613d-4f68-b27f-05237b90ba65",
   "duration_ms": 32000,
   "measure": "4/4",
-  "measure_fingerprints": {},
   "genre": "hiphop",
   "music_engine_version": "b2c2ce7",
   "movements": [
