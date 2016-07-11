@@ -141,8 +141,11 @@ Pass the token with the request, the easiest way is to set it as a header:
 
 <p>Use the following route to generate music:</p>
 
-<pre><code>POST /musics
-</code></pre>
+<pre>
+  <code>
+    POST /musics
+  </code>
+</pre>
 
 <p>The json payload should include the genre, subgenre, duration (in ms), and the structure of the music specified as a set of movements.</p>
 
@@ -181,6 +184,54 @@ Pass the token with the request, the easiest way is to set it as a header:
 
 <p>NB: you must provide the token in the Authorization Header</p>
 
+<p>The music gets generated asynchronously, here's the response to the POST</p>
+<pre>
+  <code>
+    {
+  "data": {
+    "id": "4684de9c-9939-4514-be1e-8e0458371c16",
+    "type": "musics",
+    "attributes": {
+      "price-in-cents": 1,
+      "status": "processing"
+    }
+  }
+}
+  </code>
+</pre>
+
+<h3>
+<a id="get-music" class="anchor" href="#get-music" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span>
+</a>
+Get Music
+</h3>
+
+<p>Use the following route to get music, use the music ID in the creation response to get the mp3:</p>
+
+<pre>
+  <code>
+    GET /musics/:id
+  </code>
+</pre>
+
+<h4>Response when the music is not ready (expect the generation to take a few seconds)</h4>
+<pre>
+  <code>
+    {
+  "data": {
+    "id": "4684de9c-9939-4514-be1e-8e0458371c16",
+    "type": "musics",
+    "attributes": {
+      "price-in-cents": 1,
+      "status": "processing"
+    }
+  }
+}
+  </code>
+
+
+<h4>Response when music is ready (expect the generation to take a few seconds)</h4>
 <p>The response describes the music, it's structure in milliseconds and the URI to download the mp3:</p>
 
 <pre><code>  {
