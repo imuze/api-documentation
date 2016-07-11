@@ -20,22 +20,22 @@
 
     <section class="main-content">
       <h1>
-<a id="imuze-api-version-codename-joplin" class="anchor" href="#imuze-api-version-codename-joplin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iMuze API, version codename <strong>Joplin</strong>
+<a id="imuze-api-version-one" class="anchor" href="#imuze-api-version-one" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iMuze API, version: <strong>v1</strong>
 </h1>
 
 <h2>
 <a id="how-to-use-the-imuze-api" class="anchor" href="#how-to-use-the-imuze-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Use the iMuze API</h2>
 
-<p>Joplin is the last version of the iMuze API. It tlets you generate music on demand.
+<p>This is the latest version of the iMuze API. The API lets you generate music on demand.
 To generate music you just need to specify the genre, sub-genre, duration and the structure of the music you want.</p>
 
 <h3>API base url</h3>
-The base url for this version of the API is <pre>https://joplin.imuze.io</pre>
+The base url for this version of the API is <pre>https://production.imuze-api.com</pre>
 
 <h3>
 <a id="authenticate" class="anchor" href="#authenticate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticate</h3>
 
-<p>First request an account on iMuze.io .
+<p>First request an account on iMuze.io.
 Use the following route to authenticate:</p>
 
 <pre><code>POST tokens
@@ -66,51 +66,67 @@ Use the following route to authenticate:</p>
 
 <p>The response is a list of genre and sub-genres. We add new genres and sub-genre every week, so keep checking this list:</p>
 
-<pre><code>{
-  "genres": [
-    {
-      "subgenres": [
-        "dynamic",
-        "medium",
-        "soft",
-        "vocal"
-      ],
-      "name": "edm"
-    },
-    {
-      "subgenres": [
-        "dynamic",
-        "soft"
-      ],
-      "name": "rock"
-    },
-    {
-      "subgenres": [
-        "ambiance",
-        "india",
-        "ragga",
-        "vocal"
-      ],
-      "name": "dub"
-    },
-    {
-      "subgenres": [
-        "metal",
-        "simple",
-        "smooth"
-      ],
-      "name": "jungle"
-    },
-    {
-      "subgenres": [
-        "ambiance",
-        "dirt",
-        "vinyl"
-      ],
-      "name": "hiphop"
-    }
-  ]
-}
+<pre><code>
+  {
+    "data": [
+      {
+        "id": "dfdfe119-f5b1-4f28-8326-aa6a2ea98c63",
+        "type": "genre",
+        "attributes": {
+          "genre": "blues",
+          "subgenre": "acoustic"
+        }
+      },
+      {
+        "id": "8739efa5-94a0-4cb4-8702-66fd2bab8cfb",
+        "type": "genre",
+        "attributes": {
+          "genre": "dub",
+          "subgenre": "ambiance"
+        }
+      },
+      {
+        "id": "dd001535-4de7-4315-8ac2-ea37f426c8aa",
+        "type": "genre",
+        "attributes": {
+          "genre": "hiphop",
+          "subgenre": "ambiance"
+        }
+      },
+      {
+        "id": "3ed72de3-f0d8-41ee-94de-ce0cfeec16d5",
+        "type": "genre",
+        "attributes": {
+          "genre": "rock",
+          "subgenre": "soul"
+        }
+      },
+      {
+        "id": "9c947575-76a2-421d-ab68-ba4d33a1c95a",
+        "type": "genre",
+        "attributes": {
+          "genre": "hiphop",
+          "subgenre": "vinyl"
+        }
+      },
+      {
+        "id": "46b661f8-d046-46b9-b2d7-02518303ec2a",
+        "type": "genre",
+        "attributes": {
+          "genre": "dub",
+          "subgenre": "vocal"
+        }
+      },
+      {
+        "id": "dc4b4c50-e4c0-483b-8505-ecd8162b3b07",
+        "type": "genre",
+        "attributes": {
+          "genre": "edm",
+          "subgenre": "vocal"
+        }
+      }
+    ]
+  }
 </code></pre>
 
 <h3>
@@ -123,7 +139,8 @@ Use the following route to authenticate:</p>
 
 <p>The json payload should include the genre, subgenre, duration (in ms), and the structure of the music specified as a set of movements.</p>
 
-<pre><code>{
+<pre><code>
+{
     "genre": "hiphop",
     "subgenre": "dirt",
     "duration_ms": 31000,
@@ -159,39 +176,47 @@ Use the following route to authenticate:</p>
 
 <p>The response describes the music, it's structure in milliseconds and the URI to download the mp3:</p>
 
-<pre><code>{
-  "id": "3f782e98-613d-4f68-b27f-05237b90ba65",
-  "duration_ms": 32000,
-  "measure": "4/4",
-  "genre": "hiphop",
-  "music_engine_version": "b2c2ce7",
-  "movements": [
-    {
-      "energy": "calm",
-      "start_ms": 0,
-      "duration_ms": 10666.666666666666
-    },
-    {
-      "energy": "medium",
-      "start_ms": 10666.666666666666,
-      "duration_ms": 10666.666666666666
-    },
-    {
-      "energy": "dynamic",
-      "start_ms": 21333.333333333332,
-      "duration_ms": 10666.666666666666
+<pre><code>  {
+    "data": {
+      "id": "549de126-e174-48e1-90bf-144d81109f73",
+      "type": "musics",
+      "attributes": {
+        "price-in-cents": 120,
+        "status": "ready",
+        "mp3-url": "https://generated-musics-production.s3-us-west-1.amazonaws.com/549de126-e174-48e1-90bf-144d81109f73.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWXP75FZPD37YWKA%2F20160711%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20160711T052747Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0d4c517bb61c9741c9ced6d74098d8bfb72f3c7cbc0479542945a0a579b909",
+        "durations-ms": null,
+        "genre": "blues",
+        "subgenre": "acoustic",
+        "measure-number": 24,
+        "measure": "4/4",
+        "bpm": 90,
+        "music-engine-version": "b2c2ce7",
+        "movements": [
+          {
+            "start-ms": 0,
+            "movement": "intro",
+            "duration-ms": 21333.333333333332
+          },
+          {
+            "start-ms": 21333.333333333332,
+            "movement": "verse",
+            "duration-ms": 21333.333333333332
+          },
+          {
+            "start-ms": 42666.666666666664,
+            "movement": "refrain",
+            "duration-ms": 21333.333333333332
+          }
+        ],
+        "events": []
+      }
     }
-  ],
-  "mp3_uri": "//joplin.imuze.io/musics/3f782e98-613d-4f68-b27f-05237b90ba65/mp3",
-  "bpm": 90,
-  "subgenre": "dirt"
-}
-</code></pre>
+  }</code></pre>
 
 <h3>
 <a id="enjoy-your-music" class="anchor" href="#enjoy-your-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enjoy your music</h3>
 
-<p>Use the <code>mp3_uri</code> to download and listen to your music, enjoy !</p>
+<p>Use the <code>mp3-url</code> to download and listen to your music, enjoy !</p>
 
 <pre><code>GET /musics/:id/mp3
 </code></pre>
@@ -204,6 +229,6 @@ Use the following route to authenticate:</p>
 
     </section>
 
-  
+
   </body>
 </html>
