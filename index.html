@@ -30,7 +30,7 @@
 To generate music you just need to specify the genre, sub-genre, duration and the structure of the music you want.</p>
 
 <h3>API base url</h3>
-The base url for this version of the API is <pre>https://production.imuze-api.com</pre>
+The base url for this version of the API is <pre>https://production.imuze-api.com/v1</pre>
 
 <h3>
 <a id="authenticate" class="anchor" href="#authenticate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticate</h3>
@@ -44,7 +44,7 @@ Use the following route to authenticate:</p>
 <p>The json payload should include your account credentials</p>
 
 <pre><code>{
-    "email": "you@domain.tld  ",
+    "email": "you@domain.tld",
     "password": "my_password"
 }
 </code></pre>
@@ -54,6 +54,13 @@ Use the following route to authenticate:</p>
 <pre><code>{
     "token": "gergdhvdb4399ewnfusrodfd....t45"
 }
+</code></pre>
+
+<h3>Anthentication</h3>
+
+Pass the token with the request, the easiest way is to set it as a header:
+<pre><code>
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGxxxxxxxxxxx.eyJpc3MiOiJpbXV6ZS5pbyIsImVxxxxxxxxxxxNCwidXVpZCI6IjkxMDk4ZTVhLTg4MzUtNDU1MS1hMjAyLWQ5N2NmYjNlNGQ2MCIsImVtYxxxxxxxLmNvbSJ9.BDTG0IIlrdjaogHA_PJxbgNgcLSRNy3aTo8vLZLPeCw
 </code></pre>
 
 <h3>
@@ -181,7 +188,6 @@ Use the following route to authenticate:</p>
       "id": "549de126-e174-48e1-90bf-144d81109f73",
       "type": "musics",
       "attributes": {
-        "price-in-cents": 120,
         "status": "ready",
         "mp3-url": "https://generated-musics-production.s3-us-west-1.amazonaws.com/549de126-e174-48e1-90bf-144d81109f73.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWXP75FZPD37YWKA%2F20160711%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20160711T052747Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0d4c517bb61c9741c9ced6d74098d8bfb72f3c7cbc0479542945a0a579b909",
         "durations-ms": null,
@@ -215,6 +221,18 @@ Use the following route to authenticate:</p>
 
 <h3>
 <a id="enjoy-your-music" class="anchor" href="#enjoy-your-music" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enjoy your music</h3>
+
+<h3><p>cUrl example</p></h3>
+
+<pre><code>
+  curl --request POST \
+    --url https://production.imuze-api.com/v1/musics.json \
+    --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGxxxxxxxxxxx.eyJpc3MiOiJpbXV6ZS5pbyIsImVxxxxxxxxxxxNCwidXVpZCI6IjkxMDk4ZTVhLTg4MzUtNDU1MS1hMjAyLWQ5N2NmYjNlNGQ2MCIsImVtYxxxxxxxLmNvbSJ9.BDTG0IIlrdjaogHA_PJxbgNgcLSRNy3aTo8vLZLPeCw' \
+    --header 'cache-control: no-cache' \
+    --header 'content-type: application/json' \
+    --data '{ "music":\n    {\n        "genre" : "blues",\n        "subgenre": "acoustic",\n        "duration_ms":60000,\n        "crop": true,\n        "movements":[\n            {\n                "energy":"calm",\n                "start":0,\n                "duration":0.33\n            },\n            {\n                "energy":"medium",\n                "start":0.33,\n                "duration":0.33\n            },\n            {\n                "energy":"dynamic",\n                "start":0.66,\n                "duration":0.33\n            }\n        ]\n    }\n}'
+</code></pre>
+
 
 <p>Use the <code>mp3-url</code> to download and listen to your music, enjoy !</p>
 
